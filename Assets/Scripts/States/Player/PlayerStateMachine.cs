@@ -50,18 +50,11 @@ public class PlayerStateMachine : StateMachine
         playerMovementController.Initialize(playerInput, playerInputReader, characterController, _mainCamera);
         AssignAnimationIDs();
         SubscribeAnimationId();
-        //SwitchState(new PlayerIdleState(this, StateID.Idle));
+        SwitchState(new PlayerIdleState(this, StateID.Idle));
     }
     protected override void Update()
     {
         base.Update();
-        playerMovementController.JumpAndGravity();
-        playerMovementController.GroundedCheck();
-        playerMovementController.Move();
-        //if (Input.GetKeyDown(KeyCode.A))
-        //{
-        //    SwitchState(new PlayerWalkingState(this));
-        //}
     }
 
     private void OnDestroy()
@@ -105,9 +98,13 @@ public class PlayerStateMachine : StateMachine
                     break;
                 case AnimationId.Jump:
                     animator.SetBool(_animIDJump, value);
+                    if (currentStateID == StateID.Jump || value == false) break;
+                    SwitchState(new PlayerJumpState(this, currentStateID));
                     break;
                 case AnimationId.FreeFall:
                     animator.SetBool(_animIDFreeFall, value);
+                    if (currentStateID == StateID.Fall || value == false) break;
+                    SwitchState(new PlayerFallState(this, currentStateID));
                     break;
             }
         }
@@ -121,6 +118,31 @@ public class PlayerStateMachine : StateMachine
             {
                 case AnimationId.Speed:
                     animator.SetFloat(_animIDSpeed, value);
+                    if (animator.GetBool(_animIDJump)) break;
+                    if(value == 0 && animator.GetBool(_animIDGrounded))
+                    {
+                        if (currentStateID == StateID.Idle) break;
+                        SwitchState(new PlayerIdleState(this, currentStateID));
+                        break;
+                    }
+                    else
+                    {
+                        if (animator.GetBool(_animIDGrounded) ) 
+                        {
+                            if (playerInputReader.sprint)
+                            {
+                                if (currentStateID == StateID.Run) break;
+                                SwitchState(new PlayerRunningState(this, currentStateID));
+                                break;
+                            }
+                            else
+                            {
+                                if (currentStateID == StateID.Walk) break;
+                                SwitchState(new PlayerWalkingState(this, currentStateID));
+                                break;
+                            }
+                        }
+                    }
                     break;
                 case AnimationId.MotionSpeed:
                     animator.SetFloat(_animIDMotionSpeed, value);

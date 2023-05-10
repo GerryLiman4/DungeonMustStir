@@ -39,6 +39,8 @@ public class StateMachine : MonoBehaviour
     {
         if (currentState != null)
         {
+            if (currentState.CurrentStateID == newState.CurrentStateID) return;
+            Debug.Log("masuk" + newState.CurrentStateID);
             currentState.Exit();
         }
 
