@@ -7,5 +7,6 @@ public enum StateID{
     Walk,
     Run,
     Die,
-    Crouch
+    Crouch,
+    Roll
 }

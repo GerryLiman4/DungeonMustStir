@@ -40,13 +40,14 @@ public class StateMachine : MonoBehaviour
         if (currentState != null)
         {
             if (currentState.CurrentStateID == newState.CurrentStateID) return;
-            Debug.Log("masuk" + newState.CurrentStateID);
             currentState.Exit();
         }
 
         currentState = newState;
         currentStateID = newState.CurrentStateID;
 
+        Debug.Log("masuk" + newState.CurrentStateID);
+        
         if (currentState != null)
         {
             currentState.Enter();

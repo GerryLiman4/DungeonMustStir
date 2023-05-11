@@ -1,7 +1,9 @@
 using StarterAssets;
 using System;
 using UnityEngine;
+#if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
+#endif
 
 public class PlayerMovementController : MonoBehaviour
 {
@@ -11,6 +13,9 @@ public class PlayerMovementController : MonoBehaviour
 
     [Tooltip("Sprint speed of the character in m/s")]
     public float SprintSpeed = 5.335f;
+
+    [Tooltip("Sprint speed of the character in m/s")]
+    public float RollSpeed = 8.335f;
 
     [Tooltip("How fast the character turns to face movement direction")]
     [Range(0.0f, 0.3f)]
@@ -91,7 +96,7 @@ public class PlayerMovementController : MonoBehaviour
 
     public void Initialize(PlayerInput playerInput, StarterAssetsInputs inputReader, CharacterController characterController, GameObject mainCamera)
     {
-       
+
         if (playerInput != null)
         {
             _playerInput = playerInput;
@@ -124,7 +129,6 @@ public class PlayerMovementController : MonoBehaviour
         Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
             QueryTriggerInteraction.Ignore);
 
-
         SetAnimationBool.Invoke(AnimationId.Grounded, Grounded);
     }
     public void JumpAndGravity()
@@ -146,10 +150,18 @@ public class PlayerMovementController : MonoBehaviour
             // Jump
             if (_input.jump && _jumpTimeoutDelta <= 0.0f)
             {
-                // the square root of H * -2 * G = how much velocity needed to reach desired height
-                _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+                if (_input.roll == true || _input.crouch == true)
+                {
+                    SetAnimationBool.Invoke(AnimationId.Jump, false); 
+                    _input.jump = false;
+                }
+                else
+                {
+                    // the square root of H * -2 * G = how much velocity needed to reach desired height
+                    _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
 
-                SetAnimationBool.Invoke(AnimationId.Jump, true);
+                    SetAnimationBool.Invoke(AnimationId.Jump, true);
+                }
             }
 
             // jump timeout
@@ -246,6 +258,41 @@ public class PlayerMovementController : MonoBehaviour
         SetAnimationFloat.Invoke(AnimationId.Speed, _animationBlend);
         SetAnimationFloat.Invoke(AnimationId.MotionSpeed, inputMagnitude);
     }
+    public void Crouch()
+    {
+        SetAnimationBool.Invoke(AnimationId.Crouch, _input.crouch);
+    }
+    public void Roll()
+    {
+        SetAnimationBool.Invoke(AnimationId.Roll, _input.roll);
+    }
+    public void RollMove(Vector3 direction)
+    {
+        float targetSpeed = RollSpeed;
+        float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+        float speedOffset = 0.1f;
+
+        if (currentHorizontalSpeed < targetSpeed - speedOffset ||
+            currentHorizontalSpeed > targetSpeed + speedOffset)
+        {
+            // creates curved result rather than a linear one giving a more organic speed change
+            // note T in Lerp is clamped, so we don't need to clamp our speed
+            _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed,
+                Time.deltaTime * SpeedChangeRate);
+
+            // round speed to 3 decimal places
+            _speed = Mathf.Round(_speed * 1000f) / 1000f;
+        }
+        else
+        {
+            _speed = targetSpeed;
+        }
+        //Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
+
+        //Vector3 targetDirection = direction.normalized;
+        _controller.Move(direction.normalized * (_speed * Time.deltaTime) +
+                       new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+    }
 
     private void OnDrawGizmosSelected()
     {
@@ -281,6 +328,10 @@ public class PlayerMovementController : MonoBehaviour
         {
             AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
         }
+    }
+    private void OnRollEnded(AnimationEvent animationEvent)
+    {
+        _input.roll = false;
     }
 
 }

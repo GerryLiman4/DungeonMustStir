@@ -35,5 +35,7 @@ public class PlayerWalkingState : PlayerBaseState
     public override void Tick(float deltaTime)
     {
         base.Tick(deltaTime);
+        stateMachine.playerMovementController.Crouch();
+        stateMachine.playerMovementController.Roll();
     }
 }
