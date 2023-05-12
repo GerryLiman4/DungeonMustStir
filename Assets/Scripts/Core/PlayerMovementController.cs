@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 #endif
 
-public class PlayerMovementController : MonoBehaviour
+public class PlayerMovementController : ModelController
 {
     [Header("Player")]
     [Tooltip("Move speed of the character in m/s")]
@@ -121,7 +121,7 @@ public class PlayerMovementController : MonoBehaviour
         _fallTimeoutDelta = FallTimeout;
     }
 
-    public void GroundedCheck()
+    public override void GroundedCheck()
     {
         // set sphere position, with offset
         Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset,
@@ -131,7 +131,7 @@ public class PlayerMovementController : MonoBehaviour
 
         SetAnimationBool.Invoke(AnimationId.Grounded, Grounded);
     }
-    public void JumpAndGravity()
+    public override void JumpAndGravity()
     {
         if (Grounded)
         {
@@ -195,7 +195,7 @@ public class PlayerMovementController : MonoBehaviour
             _verticalVelocity += Gravity * Time.deltaTime;
         }
     }
-    public void Move()
+    public override void Move()
     {
         // set target speed based on move speed, sprint speed and if sprint is pressed
         float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
@@ -287,9 +287,7 @@ public class PlayerMovementController : MonoBehaviour
         {
             _speed = targetSpeed;
         }
-        //Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
-
-        //Vector3 targetDirection = direction.normalized;
+        
         _controller.Move(direction.normalized * (_speed * Time.deltaTime) +
                        new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
     }
