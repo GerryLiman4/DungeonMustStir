@@ -10,6 +10,7 @@ public abstract class AIBrain : MonoBehaviour
     public bool sprint;
     public bool crouch;
     public bool roll;
+    public bool attack;
 
     [Header("Character behavioural status")]
     protected bool nothingState;
@@ -19,7 +20,9 @@ public abstract class AIBrain : MonoBehaviour
     protected bool alarmedState;
     protected bool wanderState;
 
-    protected BehaviourStateID currentBehaviourStateId;
+    [SerializeField] public GameObject target;
+
+    [SerializeField]protected BehaviourStateID currentBehaviourStateId;
     protected BehaviourStateID previousBehaviourStateId;
     public event Action<BehaviourStateID> BehaviourSwitched;
 
@@ -39,6 +42,7 @@ public abstract class AIBrain : MonoBehaviour
     public abstract void CheckEnemy();
     public abstract void LookEnemy();
     public abstract void Dead();
+
 
     protected void SwitchBehaviourState(BehaviourStateID nextBehaviourStateId)
     {
