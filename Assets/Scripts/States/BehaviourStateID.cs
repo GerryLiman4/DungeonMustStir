@@ -6,4 +6,5 @@ public enum BehaviourStateID
     AGGRO,
     ALARMED,
     WANDER,
+    ATTACK,
 }

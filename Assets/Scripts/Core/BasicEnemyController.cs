@@ -235,8 +235,8 @@ public class BasicEnemyController : ModelController
         _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
                          new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
-        //SetAnimationFloat.Invoke(AnimationId.Speed, _animationBlend);
-        //SetAnimationFloat.Invoke(AnimationId.MotionSpeed, inputMagnitude);
+        SetAnimationFloat.Invoke(AnimationId.Speed, _animationBlend);
+        SetAnimationFloat.Invoke(AnimationId.MotionSpeed, inputMagnitude);
     }
     public void Strafe()
     {
@@ -272,16 +272,16 @@ public class BasicEnemyController : ModelController
             _speed = targetSpeed;
         }
 
-        _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
-        if (_animationBlend < 0.01f) _animationBlend = 0f;
+        //_animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
+        //if (_animationBlend < 0.01f) _animationBlend = 0f;
 
         // normalise input direction
-        Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y);
+        Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y) ;
 
-        Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+        //Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.left;
 
         // move the model
-        _controller.Move(targetDirection * (_speed * Time.deltaTime) +
+        _controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) +
                          new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
         //SetAnimationFloat.Invoke(AnimationId.Speed, _animationBlend);
