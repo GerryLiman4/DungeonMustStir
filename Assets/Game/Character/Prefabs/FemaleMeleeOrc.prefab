@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 1780768877989804122}
   - component: {fileID: 906291225947923775}
   - component: {fileID: 819727414223214853}
+  - component: {fileID: 7450881275546194161}
   m_Layer: 8
   m_Name: FemaleMeleeOrc
   m_TagString: Enemy
@@ -169,7 +170,7 @@ MonoBehaviour:
   crouch: 0
   roll: 0
   attack: 0
-  target: {fileID: 6324143819019160729}
+  target: {fileID: 0}
   currentBehaviourStateId: 0
   actionTime: 0.5
   actionTimeTolerance: 1
@@ -201,6 +202,27 @@ MonoBehaviour:
   alarmedRange: 5
   <characterController>k__BackingField: {fileID: 8858042531261133777}
   <enemyMovementController>k__BackingField: {fileID: 1780768877989804122}
+  <animator>k__BackingField: {fileID: 7450881275546194161}
+--- !u!95 &7450881275546194161
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8858042531261133787}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: b69174d668ba02d44b14a084b217670a, type: 3}
+  m_Controller: {fileID: 22100000, guid: 87cebc62a689bb3499ba7494967584b4, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &8483235791999924500
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -265,7 +287,8 @@ PrefabInstance:
       propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9519522, guid: 9a6b87430c6b2684aa9c1d4616d38a60, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9a6b87430c6b2684aa9c1d4616d38a60, type: 3}
 --- !u!4 &8483235792000278960 stripped
 Transform:

@@ -855,12 +855,6 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 2070925442191277752, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
---- !u!95 &1530780238 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 8483235792009410742, guid: c319f46fc223ffb428f043aee880556b,
-    type: 3}
-  m_PrefabInstance: {fileID: 8483235791620439403}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1559573183
 GameObject:
   m_ObjectHideFlags: 0
@@ -1738,8 +1732,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 819727414223214853, guid: c319f46fc223ffb428f043aee880556b,
         type: 3}
-      propertyPath: target
-      value: 
+      propertyPath: stopChaseDistance
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 819727414223214853, guid: c319f46fc223ffb428f043aee880556b,
         type: 3}
@@ -1751,11 +1745,11 @@ PrefabInstance:
       propertyPath: patrolDots.Array.data[1]
       value: 
       objectReference: {fileID: 2012074454}
-    - target: {fileID: 819727414223214853, guid: c319f46fc223ffb428f043aee880556b,
+    - target: {fileID: 1780768877989804122, guid: c319f46fc223ffb428f043aee880556b,
         type: 3}
-      propertyPath: <animator>k__BackingField
-      value: 
-      objectReference: {fileID: 1530780238}
+      propertyPath: SprintSpeed
+      value: 3.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8189169666945411425, guid: c319f46fc223ffb428f043aee880556b,
         type: 3}
       propertyPath: m_RootOrder
@@ -1811,10 +1805,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8858042531261133777, guid: c319f46fc223ffb428f043aee880556b,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 8858042531261133787, guid: c319f46fc223ffb428f043aee880556b,
         type: 3}
       propertyPath: m_Name
       value: FemaleMeleeOrc
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 906291225947923775, guid: c319f46fc223ffb428f043aee880556b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c319f46fc223ffb428f043aee880556b, type: 3}

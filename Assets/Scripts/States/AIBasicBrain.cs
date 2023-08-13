@@ -105,7 +105,6 @@ public class AIBasicBrain : AIBrain
 
             foreach (RaycastHit hit in hits)
             {
-                Debug.Log(hit);
                 if (hit.collider.tag == "Player")
                 {
                     Vector3 targetPosition = hit.collider.transform.position;
